@@ -101,8 +101,32 @@ bool HelloWorld::init()
         this->addChild(label, 1);
     }
 
-	Sprite* sprite = Sprite::create("Cross-zevol.png");
+	sprite = Sprite::create("Cross-zevol.png");
 	this->addChild(sprite);
+
+	//表示座標を指定
+	sprite->setPosition(Vec2(900.0f, 500.0f));//200.0f,100.0f 1280x720
+	//回転角を指定（45度）
+	//sprite->setRotation(45.0f);
+	//拡縮を指定　横三倍　縦四倍
+	//sprite->setScale(3.0f, 4.0f);
+	//左右反転
+	//sprite->setFlippedX(true);
+	//上下反転
+	//sprite->setFlippedY(true);
+	//非表示
+	//sprite->setVisible(false);
+	//色合いを指定
+	//sprite->setColor(Color3B(0xff, 0x00, 0x00));
+	//不透明度を設定
+	sprite->setOpacity(255);
+	//updateが呼び出されるようにする
+	this->scheduleUpdate();
+
+	iv = 0.0f;
+
+	state = 0;
+
 
     return true;
 }
@@ -116,6 +140,73 @@ void HelloWorld::menuCloseCallback(Ref* pSender)
 
     //EventCustom customEndEvent("game_scene_close_event");
     //_eventDispatcher->dispatchEvent(&customEndEvent);
+
+
+}
+
+void HelloWorld::update(float delta)
+{
+	//ここに毎フレームの処理を書く
+	Vec2 pos;
+	switch (state)
+	{
+		//左
+	case 0:
+		//スプライトの現在座標を取得
+		pos = sprite->getPosition();
+		//座標を移動させる
+		pos += Vec2(-5.0f, 0.0f);//5-1○
+
+		//移動後の座標を反映
+		sprite->setPosition(pos);
+		if (pos.x<=0)
+		{
+			state = 1;
+		}
+		break;
+		//下移動
+	case 1:
+		pos = sprite->getPosition();
+		pos += Vec2(0.0f, -5.0f);
+		sprite->setPosition(pos);
+		if (pos.y <= 0)
+		{
+			state = 2;
+		}
+		break;
+		//右
+	case 2:
+		pos = sprite->getPosition();
+		pos += Vec2(5.0f, 0.0f);
+		sprite->setPosition(pos);
+		if (pos.x >= 1280)
+		{
+			state = 3;
+		}
+		break;
+	case 3:
+		pos = sprite->getPosition();
+		pos += Vec2(0.0f, 5.0f);
+		sprite->setPosition(pos);
+		if (pos.y >= 700)
+		{
+			state = 0;
+		}
+		break;
+	}
+
+	
+
+	
+
+	//iv++;
+	//if (iv > 300)
+	//{
+	//	iv = 300;
+	//}
+	//float opacity = iv / 300.0f * 255.0f;
+	//opacity = 255.0f - opacity;
+	//sprite->setOpacity(opacity);
 
 
 }
