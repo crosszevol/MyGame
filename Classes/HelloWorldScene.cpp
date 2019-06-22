@@ -79,12 +79,27 @@ bool HelloWorld::init()
 	auto menu = Menu::create(closeItem, NULL);
 	menu->setPosition(Vec2::ZERO);
 	this->addChild(menu, 1);
-	//2019/06/22 c++‚±‚±‚©‚ç
+	//2019/06/22 c++‚±‚±‚©‚ç////////////////////////////////////
+	//sprite1
 	sprite = Sprite::create("HelloWorld.png");
 	this->addChild(sprite);
-	sprite->setPosition(Vec2(visibleSize.width / 2.0f, visibleSize.height / 2.0f));
-	//ƒAƒNƒVƒ‡ƒ“‚Ìì¬i1•b‚©‚¯‚Ä‰E‚É‚Q‚O‚Oã‚É‚P‚O‚O“®‚­j
+	sprite->setPosition(Vec2(300, visibleSize.height / 2.0f));
+
+	//sprite2
+	sprite2 = Sprite::create("Cross-zevol.png");
+	this->addChild(sprite2);
+	sprite2->setPosition(Vec2(900, visibleSize.height / 2.0f));
+
+	//ƒAƒNƒVƒ‡ƒ“‚Ìì¬i1•b‚©‚¯‚Ä‰E‚É‚Q‚O‚Oã‚É‚P‚O‚O“®‚­jaction1
 	MoveBy* action1 = MoveBy::create(1.0f, Vec2(200, 100));
+	//ƒm[ƒh‚É‘Î‚µ‚ÄƒAƒNƒVƒ‡ƒ“‚ðŽÀs‚·‚é
+	sprite->runAction(action1);
+	sprite2->runAction(action1->clone());
+
+	//MoveBy* action2 = MoveBy::create(1.0f, Vec2(200, 100));
+	//prite2->runAction(action2);
+
+
 	//EaseInOut* action2 = EaseInOut::create(action1, 2.0f);
 	//MoveTo*action1 = MoveTo::create(1.0f, Vec2(200, 100));
 	//ScaleTo*action1 = ScaleTo::create(1.0f, 5.0f);
@@ -95,9 +110,8 @@ bool HelloWorld::init()
 	//conf.endPosition = Vec2(800, 200);
 	//BezierTo* action1 = BezierTo::create(2.0f, conf);
 
-	//ƒm[ƒh‚É‘Î‚µ‚ÄƒAƒNƒVƒ‡ƒ“‚ðŽÀs‚·‚é
-	sprite->runAction(action1);
-	//‚±‚±‚Ü‚Å06/22
+	
+	//‚±‚±‚Ü‚Å06/22//////////////////////////////////////////////
 
 	/////////////////////////////
 	// 3. add your codes below...
