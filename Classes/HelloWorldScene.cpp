@@ -81,14 +81,23 @@ bool HelloWorld::init()
 	this->addChild(menu, 1);
 	//////////////////‚±‚±‚©‚ç0622
 
+	//—”‚Ì‰Šú‰»
+	//@Random@r = new Random();
+	srand(time(nullptr));
+
 	for (int i = 0; i < 5; i++)
 	{
 		sprite[i] = Sprite::create("Cross-zevol.png");
 		this->addChild(sprite[i]);
 		sprite[i]->setPosition(Vec2(300+100*i, visibleSize.height / 2.0f));
-		//sprite[i]->setScale(0.2f);
+		sprite[i]->setScale(0.2f);
 
-		MoveBy* action1 = MoveBy::create(1.0f, Vec2(200, 100));
+		float mx, my;
+		//‚O`500‚Ì—”
+		mx = (float)rand()/RAND_MAX * 500 - 250;
+		my = (float)rand()/RAND_MAX * 500 - 250;
+
+		MoveBy* action1 = MoveBy::create(1.0f, Vec2(mx, my));
 		sprite[i]->runAction(action1);
 	}
 
