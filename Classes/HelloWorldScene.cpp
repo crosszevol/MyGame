@@ -79,25 +79,38 @@ bool HelloWorld::init()
 	auto menu = Menu::create(closeItem, NULL);
 	menu->setPosition(Vec2::ZERO);
 	this->addChild(menu, 1);
+	//////////////////‚±‚±‚©‚ç0622
+
+	for (int i = 0; i < 5; i++)
+	{
+		sprite[i] = Sprite::create("Cross-zevol.png");
+		this->addChild(sprite[i]);
+		sprite[i]->setPosition(Vec2(300+100*i, visibleSize.height / 2.0f));
+		//sprite[i]->setScale(0.2f);
+
+		MoveBy* action1 = MoveBy::create(1.0f, Vec2(200, 100));
+		sprite[i]->runAction(action1);
+	}
+
 	//2019/06/22 c++‚±‚±‚©‚ç////////////////////////////////////
 	//sprite1
-	sprite = Sprite::create("HelloWorld.png");
-	this->addChild(sprite);
-	sprite->setPosition(Vec2(300, visibleSize.height / 2.0f));
+	//sprite = Sprite::create("HelloWorld.png");
+	//this->addChild(sprite);
+	//sprite->setPosition(Vec2(300, visibleSize.height / 2.0f));
 
 	//sprite2
-	sprite2 = Sprite::create("Cross-zevol.png");
-	this->addChild(sprite2);
-	sprite2->setPosition(Vec2(900, visibleSize.height / 2.0f));
+	//sprite2 = Sprite::create("Cross-zevol.png");
+	//this->addChild(sprite2);
+	//sprite2->setPosition(Vec2(900, visibleSize.height / 2.0f));
 
 	//ƒAƒNƒVƒ‡ƒ“‚Ìì¬i1•b‚©‚¯‚Ä‰E‚É‚Q‚O‚Oã‚É‚P‚O‚O“®‚­jaction1
-	MoveBy* action1 = MoveBy::create(1.0f, Vec2(200, 100));
+	//MoveBy* action1 = MoveBy::create(1.0f, Vec2(200, 100));
 	//ƒm[ƒh‚É‘Î‚µ‚ÄƒAƒNƒVƒ‡ƒ“‚ðŽÀs‚·‚é
-	sprite->runAction(action1);
-	sprite2->runAction(action1->clone());
+	//sprite->runAction(action1);
+	//sprite2->runAction(action1->clone());
 
 	//MoveBy* action2 = MoveBy::create(1.0f, Vec2(200, 100));
-	//prite2->runAction(action2);
+	//sprite2->runAction(action2);
 
 
 	//EaseInOut* action2 = EaseInOut::create(action1, 2.0f);

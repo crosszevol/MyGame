@@ -42,9 +42,13 @@ public:
 	// implement the "static create()" method manually
 	CREATE_FUNC(HelloWorld);
 
+	//スプライトの配列
+	cocos2d::Sprite* sprite[100];
+
+
 	// スプライト
-	cocos2d::Sprite* sprite;
-	cocos2d::Sprite* sprite2;
+	//cocos2d::Sprite* sprite;
+	//cocos2d::Sprite* sprite2;
 };
 
 #endif // __HELLOWORLD_SCENE_H__
