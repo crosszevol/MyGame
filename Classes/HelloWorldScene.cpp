@@ -85,11 +85,15 @@ bool HelloWorld::init()
 	//Å@RandomÅ@r = new Random();
 	srand(time(nullptr));
 
-	for (int i = 0; i < 5; i++)
+	for (int i = 0; i < 10; i++)
 	{
 		sprite[i] = Sprite::create("Cross-zevol.png");
 		this->addChild(sprite[i]);
-		sprite[i]->setPosition(Vec2(300+100*i, visibleSize.height / 2.0f));
+		float rx, ry;
+		rx = (float)rand() / RAND_MAX * 500;
+		ry = (float)rand() / RAND_MAX * 500;
+
+		sprite[i]->setPosition(Vec2(rx, ry));
 		sprite[i]->setScale(0.2f);
 
 		float mx, my;
@@ -97,8 +101,12 @@ bool HelloWorld::init()
 		mx = (float)rand()/RAND_MAX * 500 - 250;
 		my = (float)rand()/RAND_MAX * 500 - 250;
 
-		MoveBy* action1 = MoveBy::create(1.0f, Vec2(mx, my));
-		sprite[i]->runAction(action1);
+		//MoveBy* action1 = MoveBy::create(1.0f, Vec2(mx, my));
+		//sprite[i]->runAction(action1);
+
+		sprite[i]->setOpacity(0);
+		FadeOut* action2 = FadeOut::create(0.2f);
+		sprite[i]->runAction(action2);
 	}
 
 	//2019/06/22 c++Ç±Ç±Ç©ÇÁ////////////////////////////////////
