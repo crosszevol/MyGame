@@ -90,22 +90,22 @@ bool HelloWorld::init()
 		sprite[i] = Sprite::create("Cross-zevol.png");
 		this->addChild(sprite[i]);
 		float rx, ry;
-		rx = (float)rand() / RAND_MAX * 500;
-		ry = (float)rand() / RAND_MAX * 500;
+		rx = (float)rand() / RAND_MAX * visibleSize.width;
+		ry = (float)rand() / RAND_MAX * visibleSize.height;
 
 		sprite[i]->setPosition(Vec2(rx, ry));
 		sprite[i]->setScale(0.2f);
 
 		float mx, my;
 		//‚O`500‚Ì—”
-		mx = (float)rand()/RAND_MAX * 500 - 250;
-		my = (float)rand()/RAND_MAX * 500 - 250;
+		mx = (float)rand()/RAND_MAX * visibleSize.width;
+		my = (float)rand()/RAND_MAX * visibleSize.height;
 
-		//MoveBy* action1 = MoveBy::create(1.0f, Vec2(mx, my));
-		//sprite[i]->runAction(action1);
+		MoveTo* action1 = MoveTo::create(1.0f, Vec2(mx, my));
+		sprite[i]->runAction(action1);
 
 		sprite[i]->setOpacity(0);
-		FadeOut* action2 = FadeOut::create(0.2f);
+		FadeIn* action2 = FadeIn::create(5.0f);
 		sprite[i]->runAction(action2);
 	}
 
