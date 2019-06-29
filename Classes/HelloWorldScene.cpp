@@ -79,50 +79,6 @@ bool HelloWorld::init()
 	auto menu = Menu::create(closeItem, NULL);
 	menu->setPosition(Vec2::ZERO);
 	this->addChild(menu, 1);
-	//////////////////ここから0622
-
-	//乱数の初期化
-	//　Random　r = new Random();
-	srand(time(nullptr));
-
-	for (int i = 0; i < 10; i++)
-	{
-		
-	}
-
-	//2019/06/22 c++ここから////////////////////////////////////
-	//sprite1
-	//sprite = Sprite::create("HelloWorld.png");
-	//this->addChild(sprite);
-	//sprite->setPosition(Vec2(300, visibleSize.height / 2.0f));
-
-	//sprite2
-	//sprite2 = Sprite::create("Cross-zevol.png");
-	//this->addChild(sprite2);
-	//sprite2->setPosition(Vec2(900, visibleSize.height / 2.0f));
-
-	//アクションの作成（1秒かけて右に２００上に１００動く）action1
-	//MoveBy* action1 = MoveBy::create(1.0f, Vec2(200, 100));
-	//ノードに対してアクションを実行する
-	//sprite->runAction(action1);
-	//sprite2->runAction(action1->clone());
-
-	//MoveBy* action2 = MoveBy::create(1.0f, Vec2(200, 100));
-	//sprite2->runAction(action2);
-
-
-	//EaseInOut* action2 = EaseInOut::create(action1, 2.0f);
-	//MoveTo*action1 = MoveTo::create(1.0f, Vec2(200, 100));
-	//ScaleTo*action1 = ScaleTo::create(1.0f, 5.0f);
-	//JumpTo* action1 = JumpTo::create(1.0f, Vec2(200, 100), 300.0f, 1);
-	//ccBezierConfig conf;
-	//conf.controlPoint_1 = Vec2(200, 200);
-	//conf.controlPoint_2 = Vec2(500, 500);
-	//conf.endPosition = Vec2(800, 200);
-	//BezierTo* action1 = BezierTo::create(2.0f, conf);
-
-	
-	//ここまで06/22//////////////////////////////////////////////
 
 	/////////////////////////////
 	// 3. add your codes below...
@@ -145,22 +101,28 @@ bool HelloWorld::init()
 		this->addChild(label, 1);
 	}
 
+	// Spriteの生成
 	Sprite* spr = Sprite::create("inu.png");
 	this->addChild(spr);
-
-	MoveTo* action1 = MoveTo::create(2.0f, Vec2(600.0f, 300.0f));
-
-	JumpTo* action2 = JumpTo::create(1.0f, Vec2(200.0f, 200.0f), 300.0f, 2);
-
-	TintTo* action3 = TintTo::create(2.0f, Color3B(255, 255, 0));
+	spr->setPosition(visibleSize.width, visibleSize.height);
+	//spr->removeFromParent();
+	MoveTo* action1 = MoveTo::create(5.0f,Vec2(visibleSize.width/2,visibleSize.height/2));
+	FadeOut*action2 = FadeOut::create(5.0f);
+	Spawn* action3 = Spawn::create(action1, action2, nullptr);
+	MoveTo* action4 = MoveTo::create(5.0f, Vec2(visibleSize.width, visibleSize.height));
+	FadeIn* action5 = FadeIn::create(5.0f);
+	Spawn* action6 = Spawn::create(action4, action5, nullptr);
+	//spr->setVisible(false);
+	// 指定秒数待機するアクションの生成
+	//DelayTime* action1 = DelayTime::create(1.0f);
+	//自分を削除（解放）するアクション
+	//RemoveSelf* action2 = RemoveSelf::create();
 	
-	//同時アクションの生成
-	Spawn* action4 = Spawn::create(action2, action3, nullptr);
-	//連続アクション　移動ー＞ジャンプ　の生成
-	Sequence* action5 = Sequence::create(action1, action4, nullptr);
-	spr->runAction(action5);
 
-	
+	Sequence* action7 = Sequence::create(action3, action6, nullptr);
+	Repeat* action8 = Repeat::create(action7, 5);
+	// アクションの実行
+	spr->runAction(action8);
 
 	// update関数を有効にする
 	this->scheduleUpdate();
