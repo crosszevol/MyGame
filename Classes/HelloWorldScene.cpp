@@ -106,21 +106,29 @@ bool HelloWorld::init()
 	this->addChild(spr);
 	spr->setPosition(visibleSize.width, visibleSize.height);
 	//spr->removeFromParent();
-	MoveTo* action1 = MoveTo::create(5.0f,Vec2(visibleSize.width/2,visibleSize.height/2));
-	FadeOut*action2 = FadeOut::create(5.0f);
-	Spawn* action3 = Spawn::create(action1, action2, nullptr);
-	MoveTo* action4 = MoveTo::create(5.0f, Vec2(visibleSize.width, visibleSize.height));
-	FadeIn* action5 = FadeIn::create(5.0f);
-	Spawn* action6 = Spawn::create(action4, action5, nullptr);
+	//MoveTo* action1 = MoveTo::create(5.0f,Vec2(visibleSize.width/2,visibleSize.height/2));
+	//FadeOut*action2 = FadeOut::create(5.0f);
+	//Spawn* action3 = Spawn::create(action1, action2, nullptr);
+	//MoveTo* action4 = MoveTo::create(5.0f, Vec2(visibleSize.width, visibleSize.height));
+	//FadeIn* action5 = FadeIn::create(5.0f);
+	//Spawn* action6 = Spawn::create(action4, action5, nullptr);
 	//spr->setVisible(false);
 	// 指定秒数待機するアクションの生成
 	//DelayTime* action1 = DelayTime::create(1.0f);
 	//自分を削除（解放）するアクション
 	//RemoveSelf* action2 = RemoveSelf::create();
+
+	MoveTo* action1 = MoveTo::create(1.0f, Vec2(0, visibleSize.height));
+	MoveTo* action2 = MoveTo::create(1.0f, Vec2(0, 0));
+	Sequence* action3 = Sequence::create(action1, action2, nullptr);
+	MoveTo* action4 = MoveTo::create(1.0f, Vec2(visibleSize.width, 0));
+	MoveTo* action5 = MoveTo::create(1.0f, Vec2(visibleSize.width, visibleSize.height));
+	Sequence* action6 = Sequence::create(action4, action5, nullptr);
+	Sequence* action7 = Sequence::create(action3, action6, nullptr);
 	
 
-	Sequence* action7 = Sequence::create(action3, action6, nullptr);
-	Repeat* action8 = Repeat::create(action7, 5);
+	
+	RepeatForever* action8 = RepeatForever::create(action7);
 	// アクションの実行
 	spr->runAction(action8);
 
