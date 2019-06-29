@@ -87,26 +87,7 @@ bool HelloWorld::init()
 
 	for (int i = 0; i < 10; i++)
 	{
-		sprite[i] = Sprite::create("Cross-zevol.png");
-		this->addChild(sprite[i]);
-		float rx, ry;
-		rx = (float)rand() / RAND_MAX * visibleSize.width;
-		ry = (float)rand() / RAND_MAX * visibleSize.height;
-
-		sprite[i]->setPosition(Vec2(rx, ry));
-		sprite[i]->setScale(0.2f);
-
-		float mx, my;
-		//０～500の乱数
-		mx = (float)rand()/RAND_MAX * visibleSize.width;
-		my = (float)rand()/RAND_MAX * visibleSize.height;
-
-		MoveTo* action1 = MoveTo::create(1.0f, Vec2(mx, my));
-		sprite[i]->runAction(action1);
-
-		sprite[i]->setOpacity(0);
-		FadeIn* action2 = FadeIn::create(5.0f);
-		sprite[i]->runAction(action2);
+		
 	}
 
 	//2019/06/22 c++ここから////////////////////////////////////
@@ -164,32 +145,22 @@ bool HelloWorld::init()
 		this->addChild(label, 1);
 	}
 
+	Sprite* spr = Sprite::create("inu.png");
+	this->addChild(spr);
 
+	MoveTo* action1 = MoveTo::create(2.0f, Vec2(600.0f, 300.0f));
 
-	//sprite = Sprite::create("Cross-zevol.png");
-	//this->addChild(sprite);
-	//sprite->setPosition(Vec2(visibleSize.width/2.0f, visibleSize.height/2.0f));
-	//
-	//sprite2 = Sprite::create("wolf.jpg");
-	//this->addChild(sprite2);
-	//sprite2->setPosition(Vec2(visibleSize.width / 2.0f, visibleSize.height / 2.0f));
+	JumpTo* action2 = JumpTo::create(1.0f, Vec2(200.0f, 200.0f), 300.0f, 2);
 
-	//sprite->setRotation(90.0f);
-	//sprite->setVisible(false);
-	// 赤
-	//sprite->setColor(Color3B(255, 0, 0));
-	// 青
-	//sprite->setColor(Color3B(0, 0, 255));
-	//sprite->setScale(6.0f);
+	TintTo* action3 = TintTo::create(2.0f, Color3B(255, 255, 0));
+	
+	//同時アクションの生成
+	Spawn* action4 = Spawn::create(action2, action3, nullptr);
+	//連続アクション　移動ー＞ジャンプ　の生成
+	Sequence* action5 = Sequence::create(action1, action4, nullptr);
+	spr->runAction(action5);
 
-	//                           X    Y   W    H
-	//sprite->setTextureRect(Rect(32, 32, 32, 32));
-
-	//sprite->setFlippedX(true);
-
-	//sprite->setOpacity(255);
-
-	//sprite->setAnchorPoint(Vec2(0, 1));
+	
 
 	// update関数を有効にする
 	this->scheduleUpdate();
