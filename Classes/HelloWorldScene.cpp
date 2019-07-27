@@ -36,8 +36,8 @@ Scene* HelloWorld::createScene()
 // Print useful error message instead of segfaulting when files are not there.
 static void problemLoading(const char* filename)
 {
-	//printf("Error while loading: %s\n", filename);
-	//printf("Depending on how you compiled you might have to add 'Resources/' in front of filenames in HelloWorldScene.cpp\n");
+	printf("Error while loading: %s\n", filename);
+	printf("Depending on how you compiled you might have to add 'Resources/' in front of filenames in HelloWorldScene.cpp\n");
 }
 
 // on "init" you need to initialize your instance
@@ -52,135 +52,17 @@ bool HelloWorld::init()
 
 	Size visibleSize = Director::getInstance()->getVisibleSize();
 	Vec2 origin = Director::getInstance()->getVisibleOrigin();
-
-	/////////////////////////////
-	// 2. add a menu item with "X" image, which is clicked to quit the program
-	//    you may modify it.
-
-	// add a "close" icon to exit the progress. it's an autorelease object
-	/*auto closeItem = MenuItemImage::create(
-		"CloseNormal.png",
-		"CloseSelected.png",
-		CC_CALLBACK_1(HelloWorld::menuCloseCallback, this));
-*/
+	//experimental::AudioEngine::play2d("To.mp3");
+	//イベントリスナーを作成する
+	EventListenerTouchOneByOne* listener = EventListenerTouchOneByOne::create();
+	//イベントリスナーに各コールバック関数をセットする
+	listener->onTouchBegan = CC_CALLBACK_2(HelloWorld::onTouchBegan, this);
+	listener->onTouchMoved = CC_CALLBACK_2(HelloWorld::onTouchMoved, this);
+	listener->onTouchEnded = CC_CALLBACK_2(HelloWorld::onTouchEnded, this);
+	listener->onTouchCancelled = CC_CALLBACK_2(HelloWorld::onTouchCancelled, this);
+	//イベントリスナーを登録する
+	this->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener, this);
 	
-	//背景
-	Sprite* haikei = Sprite::create("haikei2.png");//宇宙
-	this->addChild(haikei);
-	haikei->setScale(2.5f);
-	haikei->setPosition(visibleSize.width / 2, visibleSize.height / 2);
-
-	// Spriteの生成
-	Sprite* spr1 = Sprite::create("Kirby.png");//カービィ
-	this->addChild(spr1);
-	spr1->setScale(0.5f);
-	spr1->setPosition(Vec2(1200.0f, visibleSize.height / 1.5));
-
-	Sprite* spr2 = Sprite::create("muteki.png");//キャンディ
-	this->addChild(spr2);
-	spr2->setScale(0.25);
-	spr2->setPosition(Vec2(980.0f, visibleSize.height / 1.5));
-
-	Sprite* spr = Sprite::create("soul.png");//マルクソウル
-	this->addChild(spr);
-	spr->setScale(2.0f);
-	spr->setPosition(Vec2(100.0f, visibleSize.height / 1.5));
-
-	Sprite* spr3 = Sprite::create("nova.png");//ギャラクティック・ノヴァ
-	this->addChild(spr3);
-	spr3->setScale(3.0f);
-	spr3->setPosition(Vec2(visibleSize.width / 2, visibleSize.height/2-100));
-
-	Sprite* spr4 = Sprite::create("tobe.png");//ToBeContinued...
-	this->addChild(spr4);
-	spr4->setScale(0.7f);
-	spr4->setPosition(Vec2(visibleSize.width+320.0f, 100.0f));//280 100
-
-	//Spawn 同時アクション
-	//Sequence 順番アクション
-	spr3->setVisible(0);
-
-	//ノヴァアクション
-	DelayTime* novataiki = DelayTime::create(10.0f);
-	Show* novashow = Show::create();
-	Sequence* novalast = Sequence::create(novataiki, novashow, nullptr);
-	//ノヴァ終わり
-
-	//カービィアクション
-	MoveTo* action1 = MoveTo::create(5.0f,Vec2(visibleSize.width/2+50,visibleSize.height/1.5));
-	EaseIn* action4 = EaseIn::create(action1, 2.0f);
-    Hide*hideK = Hide::create();
-	DelayTime*Kdel = DelayTime::create(5.0f);
-	Sequence* Ksp = Sequence::create(Kdel, hideK, nullptr);
-	Sequence*Kact = Sequence::create(action4, Ksp, nullptr);
-
-	DelayTime*dk = DelayTime::create(3.0f);
-	Blink* bk = Blink::create(6.5f, 20);
-	Sequence* kact1 = Sequence::create(dk, bk, nullptr);
-	
-	//マルクアクション
-	MoveTo* Mstart = MoveTo::create(5.0f, Vec2(visibleSize.width / 2-50, visibleSize.height / 1.5));
-	RotateTo* action6 = RotateTo::create(1.0f, -150.0f);
-	MoveTo* Mdown = MoveTo::create(5.0f, Vec2(visibleSize.width / 2 - 50, -100.0f));
-	Spawn* Mds = Spawn::create(action6, Mdown, nullptr);
-	Sequence* Mac1 = Sequence::create(Mstart, Mds, nullptr);
-	Place*Mp = Place::create(Vec2(visibleSize.width / 2, visibleSize.height + 86));
-	Sequence* Mac2 = Sequence::create(Mac1, Mp, nullptr);
-	DelayTime*Md = DelayTime::create(1.0f);
-	MoveTo*Ml = MoveTo::create(1.0f,Vec2(visibleSize.width / 2, visibleSize.height - 50));
-	Sequence* Mac3 = Sequence::create(Mac2, Md, nullptr);
-	Sequence* Mac4 = Sequence::create(Mac3, Ml, nullptr);
-
-	DelayTime*hai = DelayTime::create(12.1f);
-	TintTo*htin = TintTo::create(0.1, 153, 153, 102);
-	Sequence*hact1 = Sequence::create(hai, htin, nullptr);
-	
-
-	//キャンディアクション
-	DelayTime* mutekitaiki = DelayTime::create(3.0f);
-	RemoveSelf* mutekikesi = RemoveSelf::create();
-	Sequence*muteki = Sequence::create(mutekitaiki, mutekikesi, nullptr);
-	//キャンディ終わり
-
-	//Tobeアクション
-	DelayTime* td = DelayTime::create(12.0f);
-	MoveTo* tm = MoveTo::create(0.1f, Vec2(280.0f, 100.0f));
-	Sequence* tact1 = Sequence::create(td, tm, nullptr);
-	
-	DelayTime*nai = DelayTime::create(12.1f);
-	TintTo*ntin = TintTo::create(0.1, 153, 153, 102);
-	Sequence*nact1 = Sequence::create(nai, ntin, nullptr);
-	
-	DelayTime*mai = DelayTime::create(12.1f);
-	TintTo*mtin = TintTo::create(0.1, 153, 153, 102);
-	Sequence*mact1 = Sequence::create(mai, mtin, nullptr);
-
-	
-	
-	experimental::AudioEngine::play2d("To.mp3");
-	
-	
-	// アクションの実行
-	//カービィ 
-	spr1->runAction(Kact);
-	spr1->runAction(kact1);
-	//マルク
-	spr->runAction(Mac4);
-	spr->runAction(mact1);
-	//キャンディ　
-	spr2->runAction(muteki);
-	//ノヴァ　
-	spr3->runAction(novalast);
-	spr3->runAction(nact1);
-	//
-	spr4->runAction(tact1);
-
-	haikei->runAction(hact1);
-	
-
-
-	// update関数を有効にする
-	this->scheduleUpdate();
 
 	return true;
 }
@@ -200,6 +82,39 @@ void HelloWorld::menuCloseCallback(Ref* pSender)
 }
 
 void HelloWorld::update(float delta)
+{
+
+}
+
+
+bool HelloWorld::onTouchBegan(Touch *touch, Event *unused_event)
+{
+	//タッチ座標を取得
+	Vec2 touch_pos = touch->getLocation();
+
+	Sprite* spr = Sprite::create("CloseNormal.png");
+	this->addChild(spr);
+	spr->setPosition(touch_pos);
+
+	//タッチでオーディオ再生
+	//experimental::AudioEngine::play2d("ToBe.mp3");
+	audioID = experimental::AudioEngine::play2d("ToBe.mp3");
+
+
+	return true;
+}
+
+void HelloWorld::onTouchMoved(Touch *touch, Event *unused_event)
+{
+
+}
+
+void HelloWorld::onTouchEnded(Touch *touch, Event *unused_event)
+{
+
+}
+
+void HelloWorld::onTouchCancelled(Touch *touch, Event *unused_event)
 {
 
 }

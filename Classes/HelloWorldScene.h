@@ -36,12 +36,18 @@ public:
 
 	void update(float delta) override;
 
+	
+	bool HelloWorld::onTouchBegan(Touch *touch, Event *unused_event);
+	void HelloWorld::onTouchMoved(Touch *touch, Event *unused_event);
+	void HelloWorld::onTouchEnded(Touch *touch, Event *unused_event);
+	void HelloWorld::onTouchCancelled(Touch *touch, Event *unused_event);
+
 	// a selector callback
 	void menuCloseCallback(cocos2d::Ref* pSender);
 
 	// implement the "static create()" method manually
 	CREATE_FUNC(HelloWorld);
-
+	int audioID;
 	//スプライトの配列
 	cocos2d::Sprite* sprite[100];
 
